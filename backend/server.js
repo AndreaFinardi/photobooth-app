@@ -1,3 +1,5 @@
+console.log('🚀 SERVER.JS AVVIATO SU RENDER');
+
 const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
@@ -10,17 +12,19 @@ const app = express();
 const server = http.createServer(app);
 
 // Socket.IO per notifiche in tempo reale
-const io = socketIo(server, {
-  cors: {
-    origin: "http://localhost:3000",
-    credentials: true
-  }
-});
+//const io = socketIo(server, {
+//  cors: {
+//    origin: "http://localhost:3000",
+//    credentials: true
+//  }
+//});
 
 // Middleware
 app.use(helmet());
 app.use(cors({
-  origin: 'http://localhost:3000',
+  
+origin: process.env.APP_URL || '*'
+,
   credentials: true
 }));
 app.use(morgan('dev'));
@@ -94,6 +98,7 @@ app.use((req, res) => {
 });
 
 const PORT = process.env.PORT || 3001;
+console.log('🟢 AVVIO SERVER SU PORTA', process.env.PORT);
 server.listen(PORT, () => {
   console.log(`🚀 Server backend in esecuzione su porta ${PORT}`);
   console.log(`📡 Health check: http://localhost:${PORT}/api/health`);
