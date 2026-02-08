@@ -15,6 +15,8 @@ const uploadToCloudinary = (fileBuffer, options = {}) => {
       {
         folder: 'photobooth-app',
         resource_type: 'image',
+        use_filename: true,
+        unique_filename: true,
         ...options
       },
       (error, result) => {

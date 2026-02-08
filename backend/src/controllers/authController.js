@@ -41,11 +41,11 @@ exports.register = async (req, res) => {
       { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
     );
 
-    await db.query(
-      `INSERT INTO user_sessions (user_id, session_token, expires_at)
-       VALUES ($1, $2, NOW() + INTERVAL '7 days')`,
-      [user.id, token]
-    );
+    //    await db.query(
+    //      `INSERT INTO user_sessions (user_id, session_token, expires_at)
+    //       VALUES ($1, $2, NOW() + INTERVAL '7 days')`,
+    //      [user.id, token]
+    //    );
 
     res.status(201).json({
       message: 'Registrazione completata con successo',
@@ -92,11 +92,11 @@ exports.login = async (req, res) => {
       { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
     );
 
-    await db.query(
-      `INSERT INTO user_sessions (user_id, session_token, expires_at)
-       VALUES ($1, $2, NOW() + INTERVAL '7 days')`,
-      [user.id, token]
-    );
+    //    await db.query(
+    //      `INSERT INTO user_sessions (user_id, session_token, expires_at)
+    //       VALUES ($1, $2, NOW() + INTERVAL '7 days')`,
+    //      [user.id, token]
+    //    );
 
     res.json({
       message: 'Login effettuato con successo',
@@ -118,22 +118,9 @@ exports.login = async (req, res) => {
 /* =========================
    LOGOUT
 ========================= */
+
 exports.logout = async (req, res) => {
-  try {
-    const token = req.headers.authorization?.split(' ')[1];
-
-    if (token) {
-      await db.query(
-        'DELETE FROM user_sessions WHERE session_token = $1',
-        [token]
-      );
-    }
-
-    res.json({ message: 'Logout effettuato con successo' });
-  } catch (err) {
-    console.error('Errore logout:', err);
-    res.status(500).json({ error: 'Errore durante il logout' });
-  }
+  res.json({ message: 'Logout effettuato con successo' });
 };
 
 /* =========================
